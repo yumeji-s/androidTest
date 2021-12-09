@@ -122,12 +122,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Integer doInBackground(Void... params) {
 
-            // タイムスタンプを生成する処理
             AccessTimeDao accessTimeDao = db.accessTimeDao();
 
-            // bitmapからbyte[]に変換
+            // サイズ変更
+            image = Bitmap.createScaledBitmap(image,80,80,true);
+
+            // Bitmapはbyte[]に変更してからDBに格納
             byte[] byteImg;
             try {
+                // bitmapからbyte[]に変換
                 byteImg = getByteObject(image);
                 // 生成したタイムスタンプを格納する処理
                 accessTimeDao.insert(new AccessTime(new Timestamp(System.currentTimeMillis()).toString(),byteImg));
@@ -141,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
             for (AccessTime at: atList) {
                 sb.append(at.getAccessTime()).append("\n");
             }
-
             return 0;
         }
 
