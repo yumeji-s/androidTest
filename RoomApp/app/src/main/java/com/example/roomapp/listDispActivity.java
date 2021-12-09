@@ -19,7 +19,7 @@ import java.lang.ref.WeakReference;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class listDisp extends AppCompatActivity {
+public class listDispActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,11 @@ public class listDisp extends AppCompatActivity {
         ListView list = findViewById(R.id.listView);
 
         findViewById(R.id.disp).setOnClickListener(new ButtonClickListener(this, db, list));
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+
     }
 
     private class ButtonClickListener implements View.OnClickListener {
@@ -66,23 +71,26 @@ public class listDisp extends AppCompatActivity {
         @Override
         protected Integer doInBackground(Void... params) {
 
+            // 全件検索
             AccessTimeDao accessTimeDao = db.accessTimeDao();
             List<AccessTime> list = accessTimeDao.getAll();
 
-            strings = new String[list.size()];
-            images = new Bitmap[list.size()];
-            for(int i = 0; i < list.size(); i++){
-                strings[i] = list.get(i).getAccessTime();
-                byte[] bytes = list.get(i).getImageTest();
-                try {
-                    images[i] = getBitmapObject(bytes);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+            // 結果をそれぞれの配列に移し替える
+            if(list.size() != 0){
+                strings = new String[list.size()];
+                images = new Bitmap[list.size()];
+                for(int i = 0; i < list.size(); i++){
+                    strings[i] = list.get(i).getAccessTime();
+                    byte[] bytes = list.get(i).getImageTest();
+                    try {
+                        images[i] = getBitmapObject(bytes);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-
             return 0;
         }
 
@@ -95,7 +103,7 @@ public class listDisp extends AppCompatActivity {
             }
             // リストビューにセット
             BaseAdapter adapter = new ListViewAdapter(activity.getApplicationContext(),
-                    R.layout.activity_list_disp, strings, images);
+                    R.layout.list, strings, images);
             listView.setAdapter(adapter);
         }
     }

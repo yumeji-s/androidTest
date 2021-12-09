@@ -20,12 +20,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.lang.ref.WeakReference;
 import java.sql.Timestamp;
 import java.util.List;
@@ -84,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.list).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), listDisp.class);
+                Intent intent = new Intent(getApplicationContext(), listDispActivity.class);
                 startActivity(intent);
             }
         });
